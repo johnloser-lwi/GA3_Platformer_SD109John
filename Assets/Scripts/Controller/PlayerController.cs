@@ -13,13 +13,40 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D _rigidbody;
     private Animator _animator;
 
+    private bool _isGrounded;
+    private bool _isGroundedChanged = false;
+    private bool IsGrounded
+    {
+        get => _isGrounded;
+        set
+        {
+            if (value != _isGrounded)
+            {
+                _isGrounded = value;
+                _isGroundedChanged = true;
+            }
+        }
+    }
+
+    private bool _isWalking;
+    private bool _isWalkingChanged = false;
+    private bool IsWalking 
+    {
+        get => _isWalking;
+        set
+        {
+            if (value != _isWalking)
+            {
+                _isWalking = value;
+                _isWalkingChanged = true;
+            }
+        }
+    }
     private float _horizontalAxis;
-    private bool _isGrounded = false;
     private bool _canDoubleJump = false;
-    private bool _isWalking = false;
     private bool _isJumpPressed = false;
-    private static readonly int IsWalking = Animator.StringToHash("isWalking");
-    private static readonly int IsGrounded = Animator.StringToHash("isGrounded");
+    private static readonly int IsWalkingParam = Animator.StringToHash("isWalking");
+    private static readonly int IsGroundedParam = Animator.StringToHash("isGrounded");
 
     private void Start()
     {
@@ -55,12 +82,12 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         // Jump
-        bool canJump = _isGrounded || _canDoubleJump;
+        bool canJump = IsGrounded || _canDoubleJump;
 
         if (_isJumpPressed && canJump)
         {
             _rigidbody.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
-            if (!_isGrounded) _canDoubleJump = false;
+            if (!IsGrounded) _canDoubleJump = false;
         }
         _isJumpPressed = false;
     }
@@ -70,8 +97,8 @@ public class PlayerController : MonoBehaviour
         // Horizontal movements
         var moveInputForce = new Vector2(_horizontalAxis * _acceleration * Time.deltaTime, 0);
         
-        if (_isGrounded) _isWalking = moveInputForce.x != 0;
-        else _isWalking = false;
+        if (IsGrounded) IsWalking = moveInputForce.x != 0;
+        else IsWalking = false;
         
         _rigidbody.AddForce(moveInputForce);
 
@@ -93,7 +120,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
         
-        if (_isGrounded)
+        if (IsGrounded)
         {
             var frictionAmount = _friction * Time.deltaTime;
             if (currentVel.x < 0) frictionAmount *= -1;
@@ -107,15 +134,23 @@ public class PlayerController : MonoBehaviour
         var origin = new Vector2(position.x, position.y - _collider.size.y / 2.0f);
         RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, 0.1f, _groundLayer);
 
-        _isGrounded = hit && hit.transform.CompareTag("Ground");
+        IsGrounded = hit && hit.transform.CompareTag("Ground");
 
-        if (_isGrounded) _canDoubleJump = true;
+        if (IsGrounded) _canDoubleJump = true;
     }
 
     private void AnimationControl()
     {
-        _animator.SetBool(IsWalking, _isWalking);
-        _animator.SetBool(IsGrounded, _isGrounded);
+        if (_isWalkingChanged)
+        {
+            _animator.SetBool(IsWalkingParam, IsWalking);
+            _isWalkingChanged = false;
+        }
+        if (_isGroundedChanged)
+        {
+            _animator.SetBool(IsGroundedParam, IsGrounded);
+            _isGroundedChanged = false;
+        }
     }
 
     private void FlipSprite()
