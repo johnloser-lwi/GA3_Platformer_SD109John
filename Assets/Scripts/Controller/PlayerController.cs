@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
             {
                 _isGrounded = value;
                 _isGroundedChanged = true;
-                if (value) _multiJumpCount = 0;
+                if (value) _inAirJumpCount = 0;
             }
         }
     }
@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _acceleration = 2.0f;
     [SerializeField] private float _friction = 2.0f;
     [SerializeField] private float _jumpForce = 50f;
-    [SerializeField] private uint _maxMultiJumpCount = 1;
+    [SerializeField] private uint _maxInAirJumpCount = 1;
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private string _groundTag = "Ground";
     
@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
     
     // Private fields
     private float _horizontalAxis;
-    private uint _multiJumpCount;
+    private uint _inAirJumpCount;
     private bool _isJumpPressed;
     private float _lastPositionY;
     private bool _isGrounded;
@@ -77,8 +77,8 @@ public class PlayerController : MonoBehaviour
         _collider = GetComponent<CapsuleCollider2D>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-        
-        ResetMultiJump();
+
+        _inAirJumpCount = 0;
     }
 
     private void Update()
@@ -107,20 +107,21 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         // Jump
-        bool canJump = IsGrounded || _multiJumpCount > 0;
-
-        if (_isJumpPressed && canJump)
-        {
-            _rigidbody.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
-            if (IsGrounded) ResetMultiJump();
-            else _multiJumpCount--;
-        }
+        bool canJump = (IsGrounded || _inAirJumpCount > 0) && _isJumpPressed;
         _isJumpPressed = false;
+
+        if (!canJump) return;
+        
+        
+        _rigidbody.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
+        if (IsGrounded) ResetInAirJump();
+        else _inAirJumpCount--;
+        
     }
 
-    private void ResetMultiJump()
+    private void ResetInAirJump()
     {
-        _multiJumpCount = _maxMultiJumpCount;
+        _inAirJumpCount = _maxInAirJumpCount;
     }
     
     private void Movement()
