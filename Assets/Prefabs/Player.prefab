@@ -104,7 +104,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 038eafdefb4cc634aa7d351978647eb6, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -162,13 +162,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3c5eafc01df42388dc8b576e907164c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 5
-  _acceleration: 2000
+  _moveSpeed: 8
+  _acceleration: 4000
   _friction: 500
   _jumpForce: 6.5
+  _maxMultiJumpCount: 1
   _groundLayer:
     serializedVersion: 2
     m_Bits: 1
+  _groundTag: Ground
 --- !u!95 &5051131329866678944
 Animator:
   serializedVersion: 5

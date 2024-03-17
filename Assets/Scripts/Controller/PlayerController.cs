@@ -1,39 +1,28 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float _moveSpeed = 50.0f;
-    [SerializeField] private float _acceleration = 2.0f;
-    [SerializeField] private float _friction = 2.0f;
-    [SerializeField] private float _jumpForce = 50f;
-    [SerializeField] private LayerMask _groundLayer;
-    
-    private SpriteRenderer _spriteRenderer;
-    private CapsuleCollider2D _collider;
-    private Rigidbody2D _rigidbody;
-    private Animator _animator;
-
-    private bool _isGrounded;
-    private bool _isGroundedChanged = false;
-    private bool IsGrounded
+    // Properties
+    public bool IsGrounded
     {
         get => _isGrounded;
-        set
+        private set
         {
             if (value != _isGrounded)
             {
                 _isGrounded = value;
                 _isGroundedChanged = true;
+                if (value) _multiJumpCount = 0;
             }
         }
     }
-
-    private bool _isWalking;
-    private bool _isWalkingChanged = false;
-    private bool IsWalking 
+    
+    public bool IsWalking 
     {
         get => _isWalking;
-        set
+        private set
         {
             if (value != _isWalking)
             {
@@ -42,9 +31,43 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    public bool IsFlipped
+    {
+        get => _spriteRenderer.flipX;
+        private set
+        {
+            if (value != _spriteRenderer.flipX) _spriteRenderer.flipX = value;
+        }
+    }
+    
+    
+    // Serialized fields
+    [SerializeField] private float _moveSpeed = 50.0f;
+    [SerializeField] private float _acceleration = 2.0f;
+    [SerializeField] private float _friction = 2.0f;
+    [SerializeField] private float _jumpForce = 50f;
+    [SerializeField] private uint _maxMultiJumpCount = 1;
+    [SerializeField] private LayerMask _groundLayer;
+    [SerializeField] private string _groundTag = "Ground";
+    
+    // Components
+    private SpriteRenderer _spriteRenderer;
+    private CapsuleCollider2D _collider;
+    private Rigidbody2D _rigidbody;
+    private Animator _animator;
+    
+    // Private fields
     private float _horizontalAxis;
-    private bool _canDoubleJump = false;
-    private bool _isJumpPressed = false;
+    private uint _multiJumpCount;
+    private bool _isJumpPressed;
+    private float _lastPositionY;
+    private bool _isGrounded;
+    private bool _isGroundedChanged;
+    private bool _isWalking;
+    private bool _isWalkingChanged;
+    
+    // Constants
     private static readonly int IsWalkingParam = Animator.StringToHash("isWalking");
     private static readonly int IsGroundedParam = Animator.StringToHash("isGrounded");
 
@@ -54,6 +77,8 @@ public class PlayerController : MonoBehaviour
         _collider = GetComponent<CapsuleCollider2D>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        
+        ResetMultiJump();
     }
 
     private void Update()
@@ -82,14 +107,20 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         // Jump
-        bool canJump = IsGrounded || _canDoubleJump;
+        bool canJump = IsGrounded || _multiJumpCount > 0;
 
         if (_isJumpPressed && canJump)
         {
             _rigidbody.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
-            if (!IsGrounded) _canDoubleJump = false;
+            if (IsGrounded) ResetMultiJump();
+            else _multiJumpCount--;
         }
         _isJumpPressed = false;
+    }
+
+    private void ResetMultiJump()
+    {
+        _multiJumpCount = _maxMultiJumpCount;
     }
     
     private void Movement()
@@ -104,7 +135,7 @@ public class PlayerController : MonoBehaviour
 
         var currentVel = _rigidbody.velocity;
         
-        var speedAbs = currentVel.x > 0 ? currentVel.x : -currentVel.x;
+        var speedAbs = Mathf.Abs(currentVel.x);
         if (speedAbs > _moveSpeed)
         {
             _rigidbody.velocity = new Vector2(currentVel.x / speedAbs * _moveSpeed, currentVel.y);
@@ -114,33 +145,39 @@ public class PlayerController : MonoBehaviour
         
         // Add friction when player input stops
         currentVel = _rigidbody.velocity;
-        if (speedAbs < 1.0f)
+        speedAbs = Mathf.Abs(currentVel.x);
+        var frictionAmount = _friction * Time.deltaTime;
+        
+        // Stop the player if the speed is too low
+        if (speedAbs < 0.1f || (speedAbs - frictionAmount < 0 && IsGrounded))
         {
             _rigidbody.velocity = new Vector2(0, currentVel.y);
             return;
         }
         
-        if (IsGrounded)
-        {
-            var frictionAmount = _friction * Time.deltaTime;
-            if (currentVel.x < 0) frictionAmount *= -1;
-            _rigidbody.AddForce(new Vector2(-frictionAmount, 0));
-        }
+        // Apply friction when grounded
+        if (!IsGrounded) return;
+        if (currentVel.x < 0) frictionAmount *= -1;
+        _rigidbody.AddForce(new Vector2(-frictionAmount, 0));
     }
 
     private void GroundCheck()
     {
         var position = transform.position;
+        
+        // Only check if the player has moved in the Y axis
+        if (Math.Abs(position.y - _lastPositionY) < 0.01f) return;
+        _lastPositionY = position.y;
+        
         var origin = new Vector2(position.x, position.y - _collider.size.y / 2.0f);
         RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, 0.1f, _groundLayer);
 
-        IsGrounded = hit && hit.transform.CompareTag("Ground");
-
-        if (IsGrounded) _canDoubleJump = true;
+        IsGrounded = hit && hit.transform.CompareTag(_groundTag);
     }
 
     private void AnimationControl()
     {
+        // Update animator parameters only when bool values change
         if (_isWalkingChanged)
         {
             _animator.SetBool(IsWalkingParam, IsWalking);
@@ -156,6 +193,6 @@ public class PlayerController : MonoBehaviour
     private void FlipSprite()
     {
         if (_horizontalAxis == 0) return;
-        _spriteRenderer.flipX = _horizontalAxis < 0;
+        IsFlipped = _horizontalAxis < 0;
     }
 }
