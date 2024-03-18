@@ -1,6 +1,7 @@
 ﻿
 using System;
 using Controller;
+using Gameplay;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -32,6 +33,11 @@ namespace Health
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _controller = GetComponent<BaseController>();
+
+            if (gameObject.CompareTag("Player"))
+            {
+                OnDead.AddListener(GameManager.Instance.ResetLevel);
+            }
         }
 
         public void TakeDamage(BaseController source)
