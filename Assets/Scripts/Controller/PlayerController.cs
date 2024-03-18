@@ -27,7 +27,7 @@ namespace Controller
             base.Start();
             
             // Initialize in air jump count, in case player can jump in air at spawn
-            _inAirJumpCount = 0;
+            ClearInAirJump();
         }
 
         protected override void Update()
@@ -73,6 +73,11 @@ namespace Controller
         {
             _inAirJumpCount = _maxInAirJumpCount;
         }
+
+        public void ClearInAirJump()
+        {
+            _inAirJumpCount = 0;
+        }
     
 
         private void AnimationControl()
@@ -97,7 +102,7 @@ namespace Controller
             
             // If the player is grounded, reset in air jump count to 0 so when player fall from the edge of the ground,
             // they won't be able to jump. Player can only perform air jump when jumping from the ground
-            if (IsGrounded) _inAirJumpCount = 0;
+            if (IsGrounded) ClearInAirJump();
         }
     }
 }
