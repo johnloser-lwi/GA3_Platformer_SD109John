@@ -127,7 +127,7 @@ public class PlayerController : MonoBehaviour
     private void Movement()
     {
         // Horizontal movements
-        var moveInputForce = new Vector2(_horizontalAxis * _acceleration * Time.deltaTime, 0);
+        var moveInputForce = new Vector2(_horizontalAxis * _acceleration * 1000.0f * Time.deltaTime, 0);
         
         if (IsGrounded) IsWalking = moveInputForce.x != 0;
         else IsWalking = false;
@@ -147,7 +147,7 @@ public class PlayerController : MonoBehaviour
         // Add friction when player input stops
         currentVel = _rigidbody.velocity;
         speedAbs = Mathf.Abs(currentVel.x);
-        var frictionAmount = _friction * Time.deltaTime;
+        var frictionAmount = _friction * 1000.0f * Time.deltaTime;
         
         // Stop the player if the speed is too low
         if (speedAbs < 0.1f || (speedAbs - frictionAmount < 0 && IsGrounded))

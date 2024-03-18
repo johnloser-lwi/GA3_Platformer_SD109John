@@ -163,10 +163,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 8
-  _acceleration: 4000
-  _friction: 500
+  _acceleration: 4
+  _friction: 0.5
   _jumpForce: 6.5
-  _maxMultiJumpCount: 1
+  _maxInAirJumpCount: 1
   _groundLayer:
     serializedVersion: 2
     m_Bits: 1
