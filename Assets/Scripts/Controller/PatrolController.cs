@@ -1,5 +1,4 @@
-﻿using System;
-using Health;
+﻿using Health;
 using UnityEngine;
 
 namespace Controller
@@ -56,15 +55,20 @@ namespace Controller
             var dir = other.transform.position.x - transform.position.x;
             rg.AddForce(new Vector2(dir > 0 ? 1:-1, 1.0f) * _pushigForce, ForceMode2D.Impulse);
         }
-
+        
+        
+#if UNITY_EDITOR
         private void OnDrawGizmos()
         {
             if (!_enableGizmos) return;
-            var leftEdge = new Vector2(_initialPosition.x - _patrolDistance / 2.0f, _initialPosition.y);
-            var rightEdge = new Vector2(_initialPosition.x + _patrolDistance / 2.0f, _initialPosition.y);
+            var position = transform.position;
+            if (Application.isPlaying) position = _initialPosition;
+            var leftEdge = new Vector2(position.x - _patrolDistance / 2.0f, position.y);
+            var rightEdge = new Vector2(position.x + _patrolDistance / 2.0f, position.y);
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(leftEdge, 0.5f);
             Gizmos.DrawWireSphere(rightEdge, 0.5f);
         }
     }
+#endif
 }
