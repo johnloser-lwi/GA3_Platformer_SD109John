@@ -6,6 +6,8 @@ namespace Controller
     // Base class for all controllers, shares common functionalities for movement and ground check.
     // This class is meant to be inherited by other controllers, such as PlayerController and EnemyController,
     // cannot be used on its own
+    [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer), typeof(CapsuleCollider2D))]
+    [RequireComponent(typeof(Animator))]
     public abstract class BaseController : MonoBehaviour
     {
         // Properties
