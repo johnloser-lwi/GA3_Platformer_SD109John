@@ -81,6 +81,7 @@ namespace Controller
         protected bool _isWalkingChanged;
         protected bool _isGrounded;
         protected bool _isGroundedChanged;
+        protected Vector2 _boxCastSize;
 
         protected virtual void Start()
         {
@@ -88,6 +89,7 @@ namespace Controller
             _collider = GetComponent<CapsuleCollider2D>();
             _rigidbody = GetComponent<Rigidbody2D>();
             _animator = GetComponent<Animator>();
+            _boxCastSize = new Vector2(_collider.size.x / 2, 0.1f);
         }
 
         protected virtual void Update()
@@ -171,7 +173,8 @@ namespace Controller
             var origin = new Vector2(position.x, position.y - _collider.size.y / 2.0f);
             
             // By defining the layer mask in the raycast, we can save some performance by not checking every collider
-            RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, 0.1f, _groundLayer);
+            RaycastHit2D hit = Physics2D.BoxCast(origin, _boxCastSize, 0, 
+                Vector2.down, 0.1f, _groundLayer);
             IsGrounded = hit && hit.transform.CompareTag(_groundTag);
         }
 
