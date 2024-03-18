@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
-  m_Name: GroundTileRule
+  m_Name: GroundRuleTile
   m_EditorClassIdentifier: 
   m_DefaultSprite: {fileID: -132617430, guid: 1532d817a3179674c8eacf35e1ca28ff, type: 3}
   m_DefaultGameObject: {fileID: 0}
