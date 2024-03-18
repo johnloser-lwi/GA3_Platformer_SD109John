@@ -55,7 +55,7 @@ namespace Controller
         private void Jump()
         {
             // Base on the input and other conditions, decide if the player can jump
-            bool canJump = (IsGrounded || _inAirJumpCount > 0) && _isJumpPressed;
+            bool canJump = (IsGrounded || (_inAirJumpCount > 0 && _rigidbody.velocity.y <= 0)) && _isJumpPressed;
             _isJumpPressed = false;
             
             if (!canJump) return;
