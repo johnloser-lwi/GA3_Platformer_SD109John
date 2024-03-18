@@ -165,12 +165,13 @@ MonoBehaviour:
   _moveSpeed: 8
   _acceleration: 4
   _friction: 0.5
-  _jumpForce: 6.5
-  _maxInAirJumpCount: 1
+  _needGroundCheck: 1
   _groundLayer:
     serializedVersion: 2
     m_Bits: 1
   _groundTag: Ground
+  _jumpForce: 6.5
+  _maxInAirJumpCount: 1
 --- !u!95 &5051131329866678944
 Animator:
   serializedVersion: 5
