@@ -16,14 +16,15 @@ namespace Controller
         private Vector2 _leftEdge;
         private Vector2 _rightEdge;
         private bool _movingRight = true;
+        private Vector2 _initialPosition;
         
         protected override void Start()
         {
             base.Start();
-            var position = transform.position;
+            _initialPosition = transform.position;
             
-            _leftEdge = new Vector2(position.x - _patrolDistance / 2.0f, position.y);
-            _rightEdge = new Vector2(position.x + _patrolDistance / 2.0f, position.y);
+            _leftEdge = new Vector2(_initialPosition.x - _patrolDistance / 2.0f, _initialPosition.y);
+            _rightEdge = new Vector2(_initialPosition.x + _patrolDistance / 2.0f, _initialPosition.y);
         }
 
         protected override void Update()
@@ -59,9 +60,8 @@ namespace Controller
         private void OnDrawGizmos()
         {
             if (!_enableGizmos) return;
-            var position = transform.position;
-            var leftEdge = new Vector2(position.x - _patrolDistance / 2.0f, position.y);
-            var rightEdge = new Vector2(position.x + _patrolDistance / 2.0f, position.y);
+            var leftEdge = new Vector2(_initialPosition.x - _patrolDistance / 2.0f, _initialPosition.y);
+            var rightEdge = new Vector2(_initialPosition.x + _patrolDistance / 2.0f, _initialPosition.y);
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(leftEdge, 0.5f);
             Gizmos.DrawWireSphere(rightEdge, 0.5f);
