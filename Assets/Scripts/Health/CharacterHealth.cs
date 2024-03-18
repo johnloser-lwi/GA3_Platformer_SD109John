@@ -11,8 +11,19 @@ namespace Health
     public class CharacterHealth : MonoBehaviour
     {
         // Properties
-        public uint Health => _health;
-        public bool IsDead => _health == 0;
+        public uint Health
+        {
+            get => _health;
+            private set
+            {
+                if (value != _health)
+                {
+                    _health = value;
+                    OnHealthChange.Invoke(value);
+                }
+            }
+        }
+        public bool IsDead => Health == 0;
         
         // Serialize fields
         [Header("Settings")]
@@ -24,6 +35,7 @@ namespace Health
         [Header("Events")]
         public UnityEvent OnDead;
         public UnityEvent<BaseController> OnTakeDamage;
+        public UnityEvent<uint> OnHealthChange;
 
         // Private fields
         private Rigidbody2D _rigidbody;
@@ -38,12 +50,14 @@ namespace Health
             {
                 OnDead.AddListener(GameManager.Instance.ResetLevel);
             }
+
+            Health = _health;
         }
 
         public void TakeDamage(BaseController source)
         {
             if (IsDead) return;
-            _health--;
+            Health--;
             if (_health > 0)
             {
                 OnTakeDamage.Invoke(source);
