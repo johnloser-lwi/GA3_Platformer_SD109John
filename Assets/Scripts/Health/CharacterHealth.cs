@@ -46,11 +46,6 @@ namespace Health
             _rigidbody = GetComponent<Rigidbody2D>();
             _controller = GetComponent<BaseController>();
 
-            if (gameObject.CompareTag("Player"))
-            {
-                OnDead.AddListener(GameManager.Instance.ResetLevel);
-            }
-
             Health = _health;
         }
 

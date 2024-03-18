@@ -1,4 +1,6 @@
-﻿using UnityEngine.SceneManagement;
+﻿using System;
+using Health;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using Utility;
 
@@ -8,7 +10,16 @@ namespace Gameplay
     {
         private void Start()
         {
-            DontDestroyOnLoad(gameObject);
+            SetupPlayerEvent();
+        }
+
+        private void SetupPlayerEvent()
+        {
+            var player = GameObject.FindWithTag("Player");
+            if (!player) return;
+            player.TryGetComponent<CharacterHealth>(out CharacterHealth playerHealth);
+            if (!playerHealth) return;
+            playerHealth.OnDead.AddListener(ResetLevel);
         }
 
         public void ResetLevel()
