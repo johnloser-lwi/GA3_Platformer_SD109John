@@ -132,7 +132,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.21698111, g: 0.21698111, b: 0.21698111, a: 0}
+  m_BackGroundColor: {r: 0, g: 0.03137255, b: 0.30588236, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -318,8 +318,8 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: 038eafdefb4cc634aa7d351978647eb6, type: 2}
+  m_GravityScale: 3
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -377,7 +377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3c5eafc01df42388dc8b576e907164c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 8
+  _moveSpeed: 5
   _acceleration: 4
   _friction: 0.5
   _needGroundCheck: 1
@@ -385,7 +385,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   _groundTag: Ground
-  _jumpForce: 6.5
+  _jumpForce: 12
   _maxInAirJumpCount: 1
 --- !u!95 &1406640725548717453
 Animator:

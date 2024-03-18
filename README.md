@@ -5,5 +5,5 @@ This is a VFS class project.
 - [x] Cinemachine camera follow
 - [ ] Patrol Enemy
 - [ ] Projectile Enemy
-- [ ] Terrain
+- [x] Terrain
 - [ ] Audio Manager
