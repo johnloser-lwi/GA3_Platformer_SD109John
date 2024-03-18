@@ -5,8 +5,9 @@ namespace Controller
 {
     public class PatrolController : BaseController
     {
+#if UNITY_EDITOR
         [SerializeField] private bool _enableGizmos = true;
-        
+#endif
         [SerializeField] private float _patrolDistance = 10.0f;
 
         [SerializeField] private float _pushigForce = 2.0f;
