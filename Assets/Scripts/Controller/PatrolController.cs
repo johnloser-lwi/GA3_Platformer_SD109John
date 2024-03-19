@@ -17,12 +17,12 @@ namespace Controller
         private Vector2 _rightEdge;
         private bool _movingRight = true;
         private Vector2 _initialPosition;
-        
+
         protected override void Start()
         {
             base.Start();
             _initialPosition = transform.position;
-            
+
             _leftEdge = new Vector2(_initialPosition.x - _patrolDistance / 2.0f, _initialPosition.y);
             _rightEdge = new Vector2(_initialPosition.x + _patrolDistance / 2.0f, _initialPosition.y);
         }
@@ -40,9 +40,9 @@ namespace Controller
             {
                 _movingRight = !_movingRight;
             }
-            
+
             _horizontalAxis = _movingRight ? -1 : 1;
-            
+
         }
 
         private void OnCollisionEnter2D(Collision2D other)
@@ -54,10 +54,10 @@ namespace Controller
             playerHealth.TakeDamage(this);
             var rg = other.rigidbody;
             var dir = other.transform.position.x - transform.position.x;
-            rg.AddForce(new Vector2(dir > 0 ? 1:-1, 1.0f) * _pushigForce, ForceMode2D.Impulse);
+            rg.AddForce(new Vector2(dir > 0 ? 1 : -1, 1.0f) * _pushigForce, ForceMode2D.Impulse);
         }
-        
-        
+
+
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
@@ -70,6 +70,7 @@ namespace Controller
             Gizmos.DrawWireSphere(leftEdge, 0.5f);
             Gizmos.DrawWireSphere(rightEdge, 0.5f);
         }
-    }
 #endif
+
+    }
 }
