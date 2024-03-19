@@ -4,6 +4,6 @@ This is a VFS class project.
 - [x] Player Controller with air jump
 - [x] Cinemachine camera follow
 - [x] Patrol Enemy
-- [ ] Projectile Enemy
+- [x] Projectile Enemy
 - [x] Terrain
 - [ ] Audio Manager

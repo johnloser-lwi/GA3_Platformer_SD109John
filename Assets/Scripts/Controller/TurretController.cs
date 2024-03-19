@@ -1,27 +1,24 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Controller
 {
-    [RequireComponent(typeof(SpriteRenderer))]
-    public class TurretController : MonoBehaviour
+    public class TurretController : BaseController
     {
+        [Space(10)]
+        [Header("Turret Settings")]
         [SerializeField] private ProjectileController _projectile;
         [SerializeField] private float _shootingInterval = 2.0f;
         [SerializeField] private GameObject _projectileSpawnPoint;
         
         
         private Transform _playerTransform;
-        private SpriteRenderer _spriteRenderer;
-
         private float _shootTimer;
         
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             var player = GameObject.FindWithTag("Player");
             if (player) _playerTransform = player.transform;
-
-            _spriteRenderer = GetComponent<SpriteRenderer>();
 
             ResetShootTimer();
         }
@@ -31,8 +28,9 @@ namespace Controller
             _shootTimer = _shootingInterval;
         }
 
-        private void Update()
+        protected override void Update()
         {
+            base.Update();
             Flip();
             Shooting();
         }
@@ -45,8 +43,10 @@ namespace Controller
 
             if (_projectile)
             {
-                if (_spriteRenderer.flipX) _projectile.Flip();
-                Instantiate(_projectile, _projectileSpawnPoint.transform.position, Quaternion.identity);
+               
+                var go = Instantiate(_projectile, _projectileSpawnPoint.transform.position, Quaternion.identity);
+                if (_spriteRenderer.flipX) go.Flip();
+                go.SetOwner(this);
             }
             
             ResetShootTimer();

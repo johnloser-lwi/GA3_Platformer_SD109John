@@ -57,6 +57,7 @@ namespace Controller
         protected float _acceleration = 2.0f;
         [SerializeField][Tooltip("How fast the player decelerates to 0 when not walking.")] 
         protected float _friction = 2.0f;
+        [SerializeField] protected float _upwardVelocityCap = 5.0f;
         
         [Space(10)]
         [Header("Ground Check")]
@@ -102,6 +103,15 @@ namespace Controller
             // Anything related to physics should be done in FixedUpdate
             Movement();
             GroundCheck();
+            UpwardVelocityCap();
+        }
+
+        protected virtual void UpwardVelocityCap()
+        {
+            if (_rigidbody.velocity.y > _upwardVelocityCap)
+            {
+                _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _upwardVelocityCap);
+            }
         }
     
         protected virtual void Movement()

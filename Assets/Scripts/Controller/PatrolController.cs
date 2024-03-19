@@ -5,6 +5,8 @@ namespace Controller
 {
     public class PatrolController : BaseController
     {
+        [Space(10)]
+        [Header("Patrol Settings")]
 #if UNITY_EDITOR
         [SerializeField] private bool _enableGizmos = true;
 #endif
@@ -52,7 +54,7 @@ namespace Controller
             other.gameObject.TryGetComponent<CharacterHealth>(out CharacterHealth playerHealth);
             if (!playerHealth) return;
             playerHealth.TakeDamage(this);
-            var rg = other.rigidbody;
+            var rg = other.gameObject.GetComponent<Rigidbody2D>();
             var dir = other.transform.position.x - transform.position.x;
             rg.AddForce(new Vector2(dir > 0 ? 1 : -1, 1.0f) * _pushigForce, ForceMode2D.Impulse);
         }
