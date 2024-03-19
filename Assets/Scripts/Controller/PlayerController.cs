@@ -3,6 +3,7 @@
 namespace Controller
 {
     // Inheritance from BaseController
+    [RequireComponent(typeof(Animator))]
     public class PlayerController : BaseController
     {
         // Serialized fields
@@ -58,19 +59,21 @@ namespace Controller
 
         private void Jump()
         {
+            // Need to make sure the jump check happens in the same frame as ground check.
+            if ((_groundCheckCount - 1) % _groundCheckInterval != 0) return;
+            
             // Base on the input and other conditions, decide if the player can jump
             bool canJump = (IsGrounded || _inAirJumpCount > 0) && _isJumpPressed;
             _isJumpPressed = false;
             
             if (!canJump) return;
             
-            _rigidbody.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
-            
             // if the player is grounded, reset in air jump count so player can jump again in the air
             if (IsGrounded) ResetInAirJump();
             // else, decrease in air jump count
             else _inAirJumpCount--;
         
+            _rigidbody.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
         }
 
         private void ResetInAirJump()

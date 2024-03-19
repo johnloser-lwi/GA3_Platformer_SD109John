@@ -387,7 +387,7 @@ MonoBehaviour:
   _groundLayer:
     serializedVersion: 2
     m_Bits: 256
-  _groundTag: Ground
+  _groundCheckInterval: 2
   _jumpForce: 14
   _maxInAirJumpCount: 1
 --- !u!95 &1406640725548717453

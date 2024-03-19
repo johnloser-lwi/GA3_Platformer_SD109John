@@ -5,12 +5,11 @@ using UnityEngine;
 namespace Controller
 {
     [RequireComponent(typeof(SpriteRenderer), typeof(Collider2D))]
-    public class ProjectileController : MonoBehaviour
+    public class ProjectileController : MonoBehaviour, ICharacterController
     {
         
         
         [SerializeField] private float _speed = 4.0f;
-        [SerializeField] private float _pushigForce = 12.0f;
         [SerializeField] private float _lifeTime = 5.0f;
 
         private SpriteRenderer _spriteRenderer;
@@ -40,38 +39,21 @@ namespace Controller
         {
             // life time
             _timer -= Time.deltaTime;
-            if (_timer <= 0)
-            {
-                Destroy(gameObject);
-                return;
-            }
-            
+            if (_timer > 0) return;
+            Destroy(gameObject);
+        }
+
+        private void FixedUpdate()
+        {
             // move
             var dir = _spriteRenderer.flipX ? -1 : 1;
             
             transform.Translate(_speed * Time.deltaTime * dir, 0, 0);
         }
 
-        private void OnCollisionEnter2D(Collision2D other)
+        public BaseController GetController()
         {
-            if (other.gameObject.CompareTag("Enemy")) return;
-            
-            if (other.gameObject.CompareTag("Player"))
-            {
-                other.gameObject.TryGetComponent(out CharacterHealth playerHealth);
-                if (!playerHealth) return;
-                playerHealth.TakeDamage(_owner);
-                var rg = other.gameObject.GetComponent<Rigidbody2D>();
-                
-                if (rg)
-                {
-                    var dir = other.transform.position.x - transform.position.x;
-                    rg.AddForce(new Vector2(dir > 0 ? 1:-1, 0.2f) * _pushigForce, ForceMode2D.Impulse);
-                }
-            }
-            
-           
-            Destroy(gameObject);
+            return _owner;
         }
     }
 }

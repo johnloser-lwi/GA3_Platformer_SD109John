@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 669587911344797520}
   - component: {fileID: 7424940273458198600}
   - component: {fileID: 4938816784360179939}
-  - component: {fileID: 608479915430987662}
-  - component: {fileID: 7019427280649792968}
+  - component: {fileID: 1958737654786559209}
+  - component: {fileID: -3171636666281869114}
   m_Layer: 6
   m_Name: PatrolEnemy
   m_TagString: Enemy
@@ -150,28 +150,7 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1.31, y: 2.85}
   m_Direction: 0
---- !u!95 &608479915430987662
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3113225487979588782}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7019427280649792968
+--- !u!114 &1958737654786559209
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -186,11 +165,25 @@ MonoBehaviour:
   _moveSpeed: 2
   _acceleration: 2
   _friction: 2
+  _upwardVelocityCap: 5
   _needGroundCheck: 0
   _groundLayer:
     serializedVersion: 2
-    m_Bits: 1
-  _groundTag: Ground
+    m_Bits: 0
   _enableGizmos: 1
   _patrolDistance: 15.7
   _pushigForce: 15
+--- !u!114 &-3171636666281869114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3113225487979588782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fa6abaa75f84f42b3190bb828cb6bc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pushForce: {x: 12, y: 12}
+  _destroySelf: 0

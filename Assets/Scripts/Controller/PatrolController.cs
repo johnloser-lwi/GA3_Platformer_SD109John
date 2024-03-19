@@ -12,8 +12,6 @@ namespace Controller
 #endif
         [SerializeField] private float _patrolDistance = 10.0f;
 
-        [SerializeField] private float _pushigForce = 2.0f;
-
 
         private Vector2 _leftEdge;
         private Vector2 _rightEdge;
@@ -45,18 +43,6 @@ namespace Controller
 
             _horizontalAxis = _movingRight ? -1 : 1;
 
-        }
-
-        private void OnCollisionEnter2D(Collision2D other)
-        {
-            if (!other.gameObject.CompareTag("Player")) return;
-
-            other.gameObject.TryGetComponent<CharacterHealth>(out CharacterHealth playerHealth);
-            if (!playerHealth) return;
-            playerHealth.TakeDamage(this);
-            var rg = other.gameObject.GetComponent<Rigidbody2D>();
-            var dir = other.transform.position.x - transform.position.x;
-            rg.AddForce(new Vector2(dir > 0 ? 1 : -1, 1.0f) * _pushigForce, ForceMode2D.Impulse);
         }
 
 

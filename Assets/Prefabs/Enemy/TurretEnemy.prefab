@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5158734198176077045}
   - component: {fileID: 4949908913488572952}
-  - component: {fileID: 8769115292003316739}
   - component: {fileID: 1114359501290314760}
   - component: {fileID: 7239060562085415778}
-  - component: {fileID: 3630030290058979934}
+  - component: {fileID: 8837068320635329965}
+  - component: {fileID: -1701578312150341402}
   m_Layer: 6
   m_Name: TurretEnemy
   m_TagString: Enemy
@@ -89,29 +89,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8769115292003316739
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 940566730352593529}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03626e6589bd46dbb3bc1808677c5f00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _moveSpeed: 50
-  _acceleration: 2
-  _friction: 2
-  _needGroundCheck: 0
-  _groundLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  _groundTag: Ground
-  _projectile: {fileID: 4880303303822416737, guid: 7eba27e3c1b7ac84397648e42bca24b7, type: 3}
-  _shootingInterval: 2
-  _projectileSpawnPoint: {fileID: 6051726570940787124}
 --- !u!50 &1114359501290314760
 Rigidbody2D:
   serializedVersion: 4
@@ -174,27 +151,43 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1.15, y: 2.86}
   m_Direction: 0
---- !u!95 &3630030290058979934
-Animator:
-  serializedVersion: 5
+--- !u!114 &8837068320635329965
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 940566730352593529}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03626e6589bd46dbb3bc1808677c5f00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moveSpeed: 50
+  _acceleration: 2
+  _friction: 2
+  _upwardVelocityCap: 5
+  _needGroundCheck: 0
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  _projectile: {fileID: 4880303303822416737, guid: 7eba27e3c1b7ac84397648e42bca24b7, type: 3}
+  _shootingInterval: 2
+  _projectileSpawnPoint: {fileID: 6051726570940787124}
+--- !u!114 &-1701578312150341402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940566730352593529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fa6abaa75f84f42b3190bb828cb6bc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pushForce: {x: 12, y: 12}
+  _destroySelf: 0
 --- !u!1 &6051726570940787124
 GameObject:
   m_ObjectHideFlags: 0

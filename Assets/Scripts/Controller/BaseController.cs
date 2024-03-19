@@ -7,8 +7,7 @@ namespace Controller
     // This class is meant to be inherited by other controllers, such as PlayerController and EnemyController,
     // cannot be used on its own
     [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer), typeof(CapsuleCollider2D))]
-    [RequireComponent(typeof(Animator))]
-    public abstract class BaseController : MonoBehaviour
+    public abstract class BaseController : MonoBehaviour, ICharacterController
     {
         // Properties
         // Getter and Setter can be used to add additional logic when the value is changed
@@ -65,6 +64,8 @@ namespace Controller
         protected bool _needGroundCheck = true;
         [SerializeField][Tooltip("Layer mask to check if the controller is grounded. (Can be ignored if needGroundCheck is false)")] 
         protected LayerMask _groundLayer;
+
+        [SerializeField] protected int _groundCheckInterval = 3;
     
         // Components
         protected SpriteRenderer _spriteRenderer;
@@ -78,7 +79,7 @@ namespace Controller
         protected bool _isWalkingChanged;
         protected bool _isGrounded;
         protected bool _isGroundedChanged;
-        protected Vector2 _lastPosition;
+        protected int _groundCheckCount = 0;
 
         protected virtual void Start()
         {
@@ -86,8 +87,6 @@ namespace Controller
             _collider = GetComponent<CapsuleCollider2D>();
             _rigidbody = GetComponent<Rigidbody2D>();
             _animator = GetComponent<Animator>();
-
-            _lastPosition = transform.position;
         }
 
         protected virtual void Update()
@@ -100,6 +99,7 @@ namespace Controller
             // Anything related to physics should be done in FixedUpdate
             Movement();
             UpwardVelocityCap();
+            GroundCheck();
         }
 
         protected virtual void UpwardVelocityCap()
@@ -164,6 +164,9 @@ namespace Controller
                 IsGrounded = true;
                 return;
             }
+            
+            _groundCheckCount++;
+            if (_groundCheckCount % _groundCheckInterval != 0) return;
 
             // caching the position of the controller can save some performance too
             var position = transform.position;
@@ -183,23 +186,9 @@ namespace Controller
             IsFlipped = _horizontalAxis < 0;
         }
 
-        private void OnCollisionEnter2D(Collision2D other)
+        public BaseController GetController()
         {
-            GroundCheck();
-        }
-
-        private void OnCollisionExit2D(Collision2D other)
-        {
-            GroundCheck();
-        }
-
-        private void OnCollisionStay2D(Collision2D other)
-        {
-            if (Math.Abs(transform.position.y - _lastPosition.y) < 0.001f &&
-                Math.Abs(_lastPosition.x - transform.position.x) > 0.01f) 
-                GroundCheck();
-            _lastPosition = transform.position;
-            
+            return this;
         }
     }
 }
