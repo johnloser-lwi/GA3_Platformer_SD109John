@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Enemy
+  - Collectable
   layers:
   - Default
   - TransparentFX
@@ -16,7 +17,7 @@ TagManager:
   - Enemy
   - Projectile
   - Environment
-  - 
+  - Collectable
   - 
   - 
   - 
@@ -54,4 +55,7 @@ TagManager:
     locked: 0
   - name: Projectile
     uniqueID: 1702666265
+    locked: 0
+  - name: Collectable
+    uniqueID: 3825272911
     locked: 0

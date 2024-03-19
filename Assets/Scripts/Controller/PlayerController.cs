@@ -47,6 +47,10 @@ namespace Controller
         {
             // Handle input and physics separately
             _horizontalAxis = Input.GetAxis("Horizontal");
+            
+            // Nomralize input to 1
+            if (_horizontalAxis > 0) _horizontalAxis = 1.0f;
+            else if (_horizontalAxis < 0) _horizontalAxis = -1.0f;
         
             if (!Input.GetButtonDown("Jump")) return;
             _isJumpPressed = true;
@@ -55,7 +59,7 @@ namespace Controller
         private void Jump()
         {
             // Base on the input and other conditions, decide if the player can jump
-            bool canJump = (IsGrounded || (_inAirJumpCount > 0 && _rigidbody.velocity.y <= 0)) && _isJumpPressed;
+            bool canJump = (IsGrounded || _inAirJumpCount > 0) && _isJumpPressed;
             _isJumpPressed = false;
             
             if (!canJump) return;

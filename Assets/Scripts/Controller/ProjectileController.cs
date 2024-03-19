@@ -62,8 +62,12 @@ namespace Controller
                 if (!playerHealth) return;
                 playerHealth.TakeDamage(_owner);
                 var rg = other.gameObject.GetComponent<Rigidbody2D>();
-                var dir = other.transform.position.x - transform.position.x;
-                rg.AddForce(new Vector2(dir > 0 ? 1:-1, 0.2f) * _pushigForce, ForceMode2D.Impulse);
+                
+                if (rg)
+                {
+                    var dir = other.transform.position.x - transform.position.x;
+                    rg.AddForce(new Vector2(dir > 0 ? 1:-1, 0.2f) * _pushigForce, ForceMode2D.Impulse);
+                }
             }
             
            

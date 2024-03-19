@@ -65,9 +65,6 @@ namespace Controller
         protected bool _needGroundCheck = true;
         [SerializeField][Tooltip("Layer mask to check if the controller is grounded. (Can be ignored if needGroundCheck is false)")] 
         protected LayerMask _groundLayer;
-        [SerializeField][Tooltip("Tag to check if the controller is grounded. (Can be ignored if needGroundCheck is false)")] 
-        protected string _groundTag = "Ground"; // This one might be redundant since I've already defined the groundLayer,
-                                                // but it's here for the sake of the example
     
         // Components
         protected SpriteRenderer _spriteRenderer;
@@ -77,12 +74,11 @@ namespace Controller
     
         // protected fields
         protected float _horizontalAxis;
-        protected float _lastPositionY;
         protected bool _isWalking;
         protected bool _isWalkingChanged;
         protected bool _isGrounded;
         protected bool _isGroundedChanged;
-        protected Vector2 _boxCastSize;
+        protected Vector2 _lastPosition;
 
         protected virtual void Start()
         {
@@ -90,7 +86,8 @@ namespace Controller
             _collider = GetComponent<CapsuleCollider2D>();
             _rigidbody = GetComponent<Rigidbody2D>();
             _animator = GetComponent<Animator>();
-            _boxCastSize = new Vector2(_collider.size.x / 2, 0.1f);
+
+            _lastPosition = transform.position;
         }
 
         protected virtual void Update()
@@ -102,7 +99,6 @@ namespace Controller
         {
             // Anything related to physics should be done in FixedUpdate
             Movement();
-            GroundCheck();
             UpwardVelocityCap();
         }
 
@@ -172,26 +168,38 @@ namespace Controller
             // caching the position of the controller can save some performance too
             var position = transform.position;
         
-            // Only check grounded if the player has moved in the Y axis
-            // This will save some performance by not checking every frame since there's no need to
-            // check if the player is grounded if it hasn't moved in the Y axis
-            if (Math.Abs(position.y - _lastPositionY) < 0.01f) return;
-            _lastPositionY = position.y;
-        
             // Raycast origin should be at the bottom of the collider
             // The collider's pivot is at the center, so we need to subtract half of the collider's height
-            var origin = new Vector2(position.x, position.y - _collider.size.y / 2.0f);
+            var origin = new Vector2(position.x, position.y);
             
             // By defining the layer mask in the raycast, we can save some performance by not checking every collider
-            RaycastHit2D hit = Physics2D.BoxCast(origin, _boxCastSize, 0, 
-                Vector2.down, 0.1f, _groundLayer);
-            IsGrounded = hit && hit.transform.CompareTag(_groundTag);
+            RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, _collider.size.y / 2.0f + 0.2f, _groundLayer);
+            IsGrounded = hit;
         }
 
         protected virtual void FlipSprite()
         {
             if (_horizontalAxis == 0) return;
             IsFlipped = _horizontalAxis < 0;
+        }
+
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            GroundCheck();
+        }
+
+        private void OnCollisionExit2D(Collision2D other)
+        {
+            GroundCheck();
+        }
+
+        private void OnCollisionStay2D(Collision2D other)
+        {
+            if (Math.Abs(transform.position.y - _lastPosition.y) < 0.001f &&
+                Math.Abs(_lastPosition.x - transform.position.x) > 0.01f) 
+                GroundCheck();
+            _lastPosition = transform.position;
+            
         }
     }
 }
