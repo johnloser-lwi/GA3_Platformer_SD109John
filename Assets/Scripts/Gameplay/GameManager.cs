@@ -1,5 +1,4 @@
-﻿using System;
-using Health;
+﻿using Health;
 using Pickup;
 using UnityEngine.SceneManagement;
 using UnityEngine;
