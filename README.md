@@ -6,4 +6,5 @@ This is a VFS class project.
 - [x] Patrol Enemy
 - [x] Projectile Enemy
 - [x] Terrain
+- [x] Collectables
 - [ ] Audio Manager
