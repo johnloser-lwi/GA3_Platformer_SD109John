@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Controller
 {
-    public class PatrolController : BaseController
+    public class PatrolCharacterController : BaseCharacterController
     {
         [Space(10)]
         [Header("Patrol Settings")]
@@ -23,6 +23,7 @@ namespace Controller
             base.Start();
             _initialPosition = transform.position;
 
+            // left and right patrol waypoint
             _leftEdge = new Vector2(_initialPosition.x - _patrolDistance / 2.0f, _initialPosition.y);
             _rightEdge = new Vector2(_initialPosition.x + _patrolDistance / 2.0f, _initialPosition.y);
         }
@@ -35,6 +36,9 @@ namespace Controller
 
         private void InputHandler()
         {
+            // Since it's inherited from BaseCharacterController where movement is 
+            // already defined, we just need to give this character some 
+            // input to let it know where to go
             var position = transform.position;
             if (!IsFlipped && position.x > _rightEdge.x || IsFlipped && position.x < _leftEdge.x)
             {
@@ -49,6 +53,7 @@ namespace Controller
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
+            // Draw the patrol waypoint so we can see them in the editor
             if (!_enableGizmos) return;
             var position = transform.position;
             if (Application.isPlaying) position = _initialPosition;

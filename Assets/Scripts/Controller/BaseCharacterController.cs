@@ -4,10 +4,10 @@ using UnityEngine;
 namespace Controller
 {
     // Base class for all controllers, shares common functionalities for movement and ground check.
-    // This class is meant to be inherited by other controllers, such as PlayerController and EnemyController,
+    // This class is meant to be inherited by other controllers, such as PlayerCharacterController and EnemyController,
     // cannot be used on its own
     [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer), typeof(CapsuleCollider2D))]
-    public abstract class BaseController : MonoBehaviour, ICharacterController
+    public abstract class BaseCharacterController : MonoBehaviour, ICharacterComponent
     {
         // Properties
         // Getter and Setter can be used to add additional logic when the value is changed
@@ -64,8 +64,10 @@ namespace Controller
         protected bool _needGroundCheck = true;
         [SerializeField][Tooltip("Layer mask to check if the controller is grounded. (Can be ignored if needGroundCheck is false)")] 
         protected LayerMask _groundLayer;
-
-        [SerializeField] protected int _groundCheckInterval = 3;
+        [SerializeField][Tooltip("How much upward velocity we need in order to ignore ground check.")]
+        protected float _ignoreGroundCheckVelocityThreshold = 1.0f;
+        [SerializeField][Tooltip("How many frame in between each ground check. (Don't do it every frame in order to save performance)")]
+        protected int _groundCheckInterval = 3;
     
         // Components
         protected SpriteRenderer _spriteRenderer;
@@ -168,15 +170,23 @@ namespace Controller
             _groundCheckCount++;
             if (_groundCheckCount % _groundCheckInterval != 0) return;
 
+            // If we have some upward velocity, there's no way player is on the ground
+            // We can just set it to false and save the raycast
+            if (_rigidbody.velocity.y > _ignoreGroundCheckVelocityThreshold)
+            {
+                IsGrounded = false;
+                return;
+            }
+
             // caching the position of the controller can save some performance too
             var position = transform.position;
         
             // Raycast origin should be at the bottom of the collider
             // The collider's pivot is at the center, so we need to subtract half of the collider's height
-            var origin = new Vector2(position.x, position.y);
+            var origin = new Vector2(position.x, position.y -_collider.size.y / 2.0f);
             
             // By defining the layer mask in the raycast, we can save some performance by not checking every collider
-            RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, _collider.size.y / 2.0f + 0.2f, _groundLayer);
+            RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down,  0.1f, _groundLayer);
             IsGrounded = hit;
         }
 
@@ -186,7 +196,7 @@ namespace Controller
             IsFlipped = _horizontalAxis < 0;
         }
 
-        public BaseController GetController()
+        public BaseCharacterController GetCharacterController()
         {
             return this;
         }

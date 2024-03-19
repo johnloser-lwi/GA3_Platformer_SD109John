@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Controller
 {
     [RequireComponent(typeof(SpriteRenderer), typeof(Collider2D))]
-    public class ProjectileController : MonoBehaviour, ICharacterController
+    public class ProjectileController : MonoBehaviour, ICharacterComponent
     {
         
         
@@ -13,12 +13,12 @@ namespace Controller
         [SerializeField] private float _lifeTime = 5.0f;
 
         private SpriteRenderer _spriteRenderer;
-        private BaseController _owner;
+        private BaseCharacterController _owner;
         private bool _isFlipped;
         
         private float _timer;
 
-        public void SetOwner(BaseController owner)
+        public void SetOwner(BaseCharacterController owner)
         {
             _owner = owner;
         }
@@ -51,8 +51,10 @@ namespace Controller
             transform.Translate(_speed * Time.deltaTime * dir, 0, 0);
         }
 
-        public BaseController GetController()
+        public BaseCharacterController GetCharacterController()
         {
+            // in this case, this Controller is not inherited from BaseCharacterController
+            // so we return owner of the projectile which is define when projectile is spawned
             return _owner;
         }
     }

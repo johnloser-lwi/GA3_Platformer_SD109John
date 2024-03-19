@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 namespace Health
 {
-    [RequireComponent(typeof(Rigidbody2D), typeof(BaseController))]
+    [RequireComponent(typeof(Rigidbody2D), typeof(BaseCharacterController))]
     public class CharacterHealth : MonoBehaviour
     {
         // Properties
@@ -34,22 +34,22 @@ namespace Health
         [Space(10)]
         [Header("Events")]
         public UnityEvent OnDead;
-        public UnityEvent<BaseController> OnTakeDamage;
+        public UnityEvent<BaseCharacterController> OnTakeDamage;
         public UnityEvent<uint> OnHealthChange;
 
         // Private fields
         private Rigidbody2D _rigidbody;
-        private BaseController _controller;
+        private BaseCharacterController _characterController;
         
         private void Start()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
-            _controller = GetComponent<BaseController>();
+            _characterController = GetComponent<BaseCharacterController>();
 
             Health = _health;
         }
 
-        public void TakeDamage(BaseController source)
+        public void TakeDamage(BaseCharacterController source)
         {
             if (IsDead) return;
             Health--;
@@ -57,7 +57,7 @@ namespace Health
             {
                 OnTakeDamage.Invoke(source);
 #if DEBUG
-                var msg = source == _controller ? 
+                var msg = source == _characterController ? 
                     $"{gameObject.name} is taking fall damage" : $"{gameObject.name} is taking damage from {source.gameObject}";
                 Debug.Log(msg);
 #endif
@@ -74,7 +74,7 @@ namespace Health
         {
             if (_rigidbody.velocity.y > _fallDamageThreshold) return;
             
-            TakeDamage(_controller);
+            TakeDamage(_characterController);
         }
     }
 }

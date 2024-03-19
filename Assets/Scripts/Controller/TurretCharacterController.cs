@@ -2,7 +2,7 @@
 
 namespace Controller
 {
-    public class TurretController : BaseController
+    public class TurretCharacterController : BaseCharacterController
     {
         [Space(10)]
         [Header("Turret Settings")]
@@ -46,6 +46,8 @@ namespace Controller
                
                 var go = Instantiate(_projectile, _projectileSpawnPoint.transform.position, Quaternion.identity);
                 if (_spriteRenderer.flipX) go.Flip();
+                
+                // Very important to remember to set the owner of projectile to this BaseCharacterController
                 go.SetOwner(this);
             }
             
@@ -54,6 +56,7 @@ namespace Controller
 
         private void Flip()
         {
+            // Flip base on the position of player
             var playerX = _playerTransform.position.x;
             var x = transform.position.x;
 

@@ -2,9 +2,9 @@
 
 namespace Controller
 {
-    // Inheritance from BaseController
+    // Inheritance from BaseCharacterController
     [RequireComponent(typeof(Animator))]
-    public class PlayerController : BaseController
+    public class PlayerCharacterController : BaseCharacterController
     {
         // Serialized fields
         [Space(10)]
