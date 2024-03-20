@@ -6,5 +6,8 @@ This is a VFS class project.
 - [x] Patrol Enemy
 - [x] Projectile Enemy
 - [x] Terrain
+- [x] One Way Platform
+- [x] Moving Platform
 - [x] Collectables
+- [ ] UI
 - [ ] Audio Manager
