@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - Enemy
   - Collectable
+  - MovingPlatform
   layers:
   - Default
   - TransparentFX

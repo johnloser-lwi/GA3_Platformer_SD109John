@@ -1,5 +1,6 @@
 ﻿using System;
 using Interfaces;
+using Level;
 using UnityEngine;
 
 namespace Controller
@@ -83,6 +84,8 @@ namespace Controller
         protected bool _isGrounded;
         protected bool _isGroundedChanged;
         protected int _groundCheckCount = 0;
+        protected MovingPlatform _movingPlatform;
+        protected GameObject _movingPlatformGO;
 
         protected virtual void Start()
         {
@@ -107,6 +110,7 @@ namespace Controller
 
         protected virtual void UpwardVelocityCap()
         {
+            if (_movingPlatform) return;
             if (_rigidbody.velocity.y > _upwardVelocityCap)
             {
                 _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _upwardVelocityCap);
@@ -135,6 +139,12 @@ namespace Controller
             
             // Add friction when movement input stops, skip if there's an active movement input
             if (moveInputForce.x != 0) return;
+            
+            if (_movingPlatform)
+            {
+                _rigidbody.velocity = new Vector2(_movingPlatform.GetSpeed().x, currentVel.y);
+                return;
+            }
             
             currentVel = _rigidbody.velocity;
             speedAbs = Mathf.Abs(currentVel.x);
@@ -189,6 +199,24 @@ namespace Controller
             // By defining the layer mask in the raycast, we can save some performance by not checking every collider
             RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down,  0.1f, _groundLayer);
             IsGrounded = hit;
+            if (IsGrounded && hit.transform.gameObject.CompareTag("MovingPlatform"))
+            {
+                if (_movingPlatformGO != hit.transform.gameObject)
+                {
+                    _movingPlatformGO = hit.transform.gameObject;
+                    _movingPlatform = hit.transform.gameObject.GetComponentInParent<MovingPlatform>();
+                }
+            }
+            else
+            {
+                _movingPlatform = null;
+                _movingPlatformGO = null;
+            }
+            
+            if (_movingPlatform && _rigidbody.velocity.y < _ignoreGroundCheckVelocityThreshold)
+            {
+                IsGrounded = true;
+            }
         }
 
         protected virtual void FlipSprite()

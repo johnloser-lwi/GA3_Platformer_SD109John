@@ -387,6 +387,7 @@ MonoBehaviour:
   _groundLayer:
     serializedVersion: 2
     m_Bits: 256
+  _ignoreGroundCheckVelocityThreshold: 4
   _groundCheckInterval: 2
   _jumpForce: 14
   _maxInAirJumpCount: 1
