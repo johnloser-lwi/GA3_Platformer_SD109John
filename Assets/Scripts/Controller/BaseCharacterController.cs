@@ -183,7 +183,7 @@ namespace Controller
 
             // If we have some upward velocity, there's no way player is on the ground
             // We can just set it to false and save the raycast
-            if (_rigidbody.velocity.y > _ignoreGroundCheckVelocityThreshold)
+            if (_rigidbody.velocity.y > _ignoreGroundCheckVelocityThreshold && !_movingPlatform)
             {
                 IsGrounded = false;
                 return;
@@ -213,7 +213,7 @@ namespace Controller
                 _movingPlatformGO = null;
             }
             
-            if (_movingPlatform && _rigidbody.velocity.y < _ignoreGroundCheckVelocityThreshold)
+            if (_movingPlatform && _rigidbody.velocity.y < _movingPlatform.GetSpeed().y)
             {
                 IsGrounded = true;
             }
