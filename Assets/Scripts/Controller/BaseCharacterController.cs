@@ -1,4 +1,5 @@
 ﻿using System;
+using Interfaces;
 using UnityEngine;
 
 namespace Controller
@@ -7,7 +8,7 @@ namespace Controller
     // This class is meant to be inherited by other controllers, such as PlayerCharacterController and EnemyController,
     // cannot be used on its own
     [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer), typeof(CapsuleCollider2D))]
-    public abstract class BaseCharacterController : MonoBehaviour, ICharacterComponent
+    public abstract class BaseCharacterController : MonoBehaviour, IWeaponizable
     {
         // Properties
         // Getter and Setter can be used to add additional logic when the value is changed

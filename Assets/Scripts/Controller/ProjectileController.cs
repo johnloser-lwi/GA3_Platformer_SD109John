@@ -1,11 +1,12 @@
 ﻿using System;
 using Health;
+using Interfaces;
 using UnityEngine;
 
 namespace Controller
 {
     [RequireComponent(typeof(SpriteRenderer), typeof(Collider2D))]
-    public class ProjectileController : MonoBehaviour, ICharacterComponent
+    public class ProjectileController : MonoBehaviour, IWeaponizable
     {
         
         
