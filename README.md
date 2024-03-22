@@ -10,4 +10,4 @@ This is a VFS class project.
 - [x] Moving Platform
 - [x] Collectables
 - [ ] UI
-- [ ] Audio Manager
+- [x] Audio Manager
