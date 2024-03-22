@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 namespace Controller
 {
@@ -6,6 +7,9 @@ namespace Controller
     [RequireComponent(typeof(Animator))]
     public class PlayerCharacterController : BaseCharacterController
     {
+        // Events
+        public UnityEvent OnJump;
+        
         // Serialized fields
         [Space(10)]
         [Header("Jump Settings")]
@@ -74,6 +78,7 @@ namespace Controller
             else _inAirJumpCount--;
         
             _rigidbody.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
+            OnJump.Invoke();    
         }
 
         private void ResetInAirJump()

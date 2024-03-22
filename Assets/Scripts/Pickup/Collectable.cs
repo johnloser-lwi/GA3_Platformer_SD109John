@@ -13,7 +13,8 @@ namespace Pickup
             if (!other.gameObject.CompareTag("Player")) return;
             
             OnCollect.Invoke();
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }

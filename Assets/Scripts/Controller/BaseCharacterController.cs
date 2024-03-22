@@ -2,6 +2,7 @@
 using Interfaces;
 using Level;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Controller
 {
@@ -11,6 +12,9 @@ namespace Controller
     [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer), typeof(CapsuleCollider2D))]
     public abstract class BaseCharacterController : MonoBehaviour, IWeaponizable
     {
+        // Events
+        public UnityEvent OnLand;
+        
         // Properties
         // Getter and Setter can be used to add additional logic when the value is changed
         public bool IsGrounded
@@ -22,6 +26,7 @@ namespace Controller
                 {
                     _isGrounded = value;
                     _isGroundedChanged = true;
+                    if (_isGrounded) OnLand.Invoke();
                 }
             }
         }
