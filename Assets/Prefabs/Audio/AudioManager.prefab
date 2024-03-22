@@ -51,6 +51,7 @@ MonoBehaviour:
   _UIAudioSource: {fileID: 6646846150585174080}
   _MusicAudioSource: {fileID: 3366582802750588543}
   _OtherAudioSource: {fileID: 7536396225755274147}
+  _audioCooldown: 0.3
 --- !u!114 &7625159630329950682
 MonoBehaviour:
   m_ObjectHideFlags: 0

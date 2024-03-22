@@ -25,12 +25,12 @@ namespace Audio
 
         public void PlayLand()
         {
-            AudioManager.Instance.PlaySFX(_land, _audioSource);
+            AudioManager.Instance.PlaySFX(_land, _audioSource, true);
         }
 
         public void PlayFootstep()
         {
-            AudioManager.Instance.PlaySFX(_footStep, _audioSource);
+            AudioManager.Instance.PlaySFX(_footStep, _audioSource, true);
         }
 
         public void PlayTakeDamage()

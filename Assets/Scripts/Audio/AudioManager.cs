@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 using Utility;
 
 namespace Audio
@@ -8,11 +10,33 @@ namespace Audio
         [SerializeField] private AudioSource _UIAudioSource;
         [SerializeField] private AudioSource _MusicAudioSource;
         [SerializeField] private AudioSource _OtherAudioSource;
+        [SerializeField] private float _audioCooldown = 0.2f;
+        
+        private Dictionary<string, float> _cacheList;
 
-        public void PlaySFX(AudioClip audio, AudioSource source)
+        private void Start()
         {
-            if (!audio) return;
+            _cacheList = new Dictionary<string, float>();
+        }
+
+        private void Update()
+        {
+            if (_cacheList.Count == 0) return;
+            string[] keys = new string[_cacheList.Count];
+            _cacheList.Keys.CopyTo(keys, 0);
+            foreach (var key in keys)
+            {
+                _cacheList[key] -= Time.deltaTime;
+                if (_cacheList[key] <= 0) _cacheList.Remove(key);
+            }
+        }
+
+        public void PlaySFX(AudioClip audio, AudioSource source, bool applyCooldown = false)
+        {
+            if (!audio || _cacheList.ContainsKey(audio.name)) return;
             source.PlayOneShot(audio);
+            if (!applyCooldown) return;
+            _cacheList.Add(audio.name, _audioCooldown);
         }
 
         public void PlayMusic(AudioClip audio)
