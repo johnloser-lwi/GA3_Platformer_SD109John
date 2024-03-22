@@ -2,12 +2,15 @@
 using Pickup;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.Events;
 using Utility;
 
 namespace Gameplay
 {
     public class GameManager : Singleton<GameManager>
     {
+        public UnityEvent<uint> OnScoreChange;
+        
         public uint Score { get; private set; } = 0;
 
 
@@ -17,6 +20,8 @@ namespace Gameplay
         {
             SetupPlayerEvent();
             SetupCollectableEvent();
+            
+            OnScoreChange.Invoke(Score);
         }
 
         private void SetupPlayerEvent()
@@ -41,6 +46,7 @@ namespace Gameplay
         private void ScoreChangeHandler()
         {
             Score += 1;
+            OnScoreChange.Invoke(Score);
             if (_scoreToWin > Score) 
                 Debug.Log($"Current Score : {Score}/{_scoreToWin}");
             else

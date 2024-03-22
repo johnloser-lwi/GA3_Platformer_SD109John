@@ -9,5 +9,5 @@ This is a VFS class project.
 - [x] One Way Platform
 - [x] Moving Platform
 - [x] Collectables
-- [ ] UI
+- [x] UI
 - [x] Audio Manager

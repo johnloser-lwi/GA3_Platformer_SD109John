@@ -47,6 +47,8 @@ namespace Health
             _characterController = GetComponent<BaseCharacterController>();
 
             Health = _health;
+            
+            OnHealthChange.Invoke(Health);
         }
 
         public void TakeDamage(BaseCharacterController source)
