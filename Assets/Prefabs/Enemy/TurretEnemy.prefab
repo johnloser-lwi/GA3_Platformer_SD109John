@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7239060562085415778}
   - component: {fileID: 8837068320635329965}
   - component: {fileID: -1701578312150341402}
+  - component: {fileID: 4305385171625737640}
   m_Layer: 6
   m_Name: TurretEnemy
   m_TagString: Enemy
@@ -163,6 +164,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03626e6589bd46dbb3bc1808677c5f00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnLand:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4305385171625737640}
+        m_TargetAssemblyTypeName: Audio.SimpleAudioPlayer, Assembly-CSharp
+        m_MethodName: PlayAudio
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _moveSpeed: 50
   _acceleration: 2
   _friction: 2
@@ -173,6 +189,9 @@ MonoBehaviour:
     m_Bits: 0
   _ignoreGroundCheckVelocityThreshold: 1
   _groundCheckInterval: 3
+  OnFire:
+    m_PersistentCalls:
+      m_Calls: []
   _projectile: {fileID: 4880303303822416737, guid: 7eba27e3c1b7ac84397648e42bca24b7, type: 3}
   _shootingInterval: 4
   _projectileSpawnPoint: {fileID: 6051726570940787124}
@@ -190,6 +209,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pushForce: {x: 12, y: 12}
   _destroySelf: 0
+--- !u!114 &4305385171625737640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940566730352593529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 005ca7846c824cfb8c8bd5459550b12b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioClip: {fileID: 0}
+  _playOnStart: 0
 --- !u!1 &6051726570940787124
 GameObject:
   m_ObjectHideFlags: 0

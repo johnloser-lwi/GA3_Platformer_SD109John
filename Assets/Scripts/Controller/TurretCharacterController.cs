@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 namespace Controller
 {
     public class TurretCharacterController : BaseCharacterController
     {
+        public UnityEvent OnFire;
+        
         [Space(10)]
         [Header("Turret Settings")]
         [SerializeField] private ProjectileController _projectile;
@@ -49,6 +52,8 @@ namespace Controller
                 
                 // Very important to remember to set the owner of projectile to this BaseCharacterController
                 go.SetOwner(this);
+
+                OnFire.Invoke();
             }
             
             ResetShootTimer();

@@ -7,6 +7,7 @@ namespace Audio
     {
         [SerializeField] private AudioSource _UIAudioSource;
         [SerializeField] private AudioSource _MusicAudioSource;
+        [SerializeField] private AudioSource _OtherAudioSource;
 
         public void PlaySFX(AudioClip audio, AudioSource source)
         {
@@ -33,6 +34,12 @@ namespace Audio
         {
             if (!audio) return;
             PlaySFX(audio, _UIAudioSource);
+        }
+        
+        public void PlaySFX(AudioClip audio)
+        {
+            if (!audio) return;
+            PlaySFX(audio, _OtherAudioSource);
         }
     }
 }

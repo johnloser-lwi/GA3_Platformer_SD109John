@@ -9,6 +9,7 @@ namespace Audio
         [SerializeField] private AudioClip _jump;
         [SerializeField] private AudioClip _land;
         [SerializeField] private AudioClip _footStep;
+        [SerializeField] private AudioClip _takeDamage;
 
         private AudioSource _audioSource;
 
@@ -30,6 +31,11 @@ namespace Audio
         public void PlayFootstep()
         {
             AudioManager.Instance.PlaySFX(_footStep, _audioSource);
+        }
+
+        public void PlayTakeDamage()
+        {
+            AudioManager.Instance.PlaySFX(_takeDamage, _audioSource);
         }
     }
 }
