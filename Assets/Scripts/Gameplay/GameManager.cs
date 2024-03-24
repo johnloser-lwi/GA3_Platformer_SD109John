@@ -72,7 +72,6 @@ namespace Gameplay
             if (Input.GetButtonDown("Cancel"))
             {
                 GameSceneManager.Instance.LoadScene("MainMenu");
-                AudioManager.Instance.StopMusic();
             }
         }
     }

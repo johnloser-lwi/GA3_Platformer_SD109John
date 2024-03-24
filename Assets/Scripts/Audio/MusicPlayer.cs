@@ -11,5 +11,10 @@ namespace Audio
         {
             AudioManager.Instance.PlayMusic(_music);
         }
+
+        private void OnDestroy()
+        {
+            AudioManager.Instance.StopMusic();
+        }
     }
 }
