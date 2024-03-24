@@ -1,7 +1,4 @@
-﻿
-using System;
-using Controller;
-using Gameplay;
+﻿using Controller;
 using UnityEngine;
 using UnityEngine.Events;
 

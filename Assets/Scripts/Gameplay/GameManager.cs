@@ -1,7 +1,5 @@
-﻿using Audio;
-using Health;
+﻿using Health;
 using Pickup;
-using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.Events;
 using Utility;
