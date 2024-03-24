@@ -16,12 +16,15 @@ namespace Gameplay
 
 
         private uint _scoreToWin;
-        
-        private void Start()
+
+        private void Awake()
         {
             SetupPlayerEvent();
             SetupCollectableEvent();
-            
+        }
+        
+        private void Start()
+        {
             OnScoreChange.Invoke(Score);
         }
 
