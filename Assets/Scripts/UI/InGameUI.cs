@@ -11,7 +11,7 @@ namespace UI
         private uint _healthCache;
         private uint _scoreCache;
 
-        private void Start()
+        private void Awake()
         {
             _textMeshPro = GetComponent<TextMeshProUGUI>();
 

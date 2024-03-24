@@ -1,4 +1,5 @@
-﻿using Health;
+﻿using Audio;
+using Health;
 using Pickup;
 using UnityEngine.SceneManagement;
 using UnityEngine;
@@ -58,7 +59,7 @@ namespace Gameplay
 
         public void ResetLevel()
         {
-            SceneManager.LoadScene(0);
+            GameSceneManager.Instance.LoadScene("TestLevel");
         }
 
         private void Update()
@@ -70,7 +71,8 @@ namespace Gameplay
         {
             if (Input.GetButtonDown("Cancel"))
             {
-                ResetLevel();
+                GameSceneManager.Instance.LoadScene("MainMenu");
+                AudioManager.Instance.StopMusic();
             }
         }
     }
