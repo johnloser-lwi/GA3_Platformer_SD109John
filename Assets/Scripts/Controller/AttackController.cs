@@ -11,6 +11,7 @@ namespace Controller
     {
         [SerializeField] private Vector2 _pushForce;
         [SerializeField] private bool _destroySelf;
+        [SerializeField] private uint _damage = 1;
 
         // Since projectile code is not inherited from BaseCharacterController, 
         // use IWeaponizable to define common logic between projectile and characters
@@ -37,7 +38,7 @@ namespace Controller
         {
             other.gameObject.TryGetComponent(out CharacterHealth playerHealth);
             if (!playerHealth) return;
-            playerHealth.TakeDamage(_controller.GetCharacterController());
+            playerHealth.TakeDamage(_controller.GetCharacterController(), _damage);
             var rg = other.gameObject.GetComponent<Rigidbody2D>();
             var dir = other.transform.position.x - transform.position.x;
             rg.AddForce(new Vector2((dir > 0 ? 1 : -1) * _pushForce.x, _pushForce.y), ForceMode2D.Impulse);
