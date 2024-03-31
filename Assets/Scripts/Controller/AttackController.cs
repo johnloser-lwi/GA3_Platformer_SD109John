@@ -27,15 +27,20 @@ namespace Controller
         {
             if (other.gameObject.CompareTag("Player"))
             {
-                other.gameObject.TryGetComponent(out CharacterHealth playerHealth);
-                if (!playerHealth) return;
-                playerHealth.TakeDamage(_controller.GetCharacterController());
-                var rg = other.gameObject.GetComponent<Rigidbody2D>();
-                var dir = other.transform.position.x - transform.position.x;
-                rg.AddForce(new Vector2((dir > 0 ? 1 : -1) * _pushForce.x, _pushForce.y), ForceMode2D.Impulse);
+                DealDamageToPlayer(other);
             }
             
             if (_destroySelf) Destroy(gameObject);
+        }
+
+        private void DealDamageToPlayer(Collision2D other)
+        {
+            other.gameObject.TryGetComponent(out CharacterHealth playerHealth);
+            if (!playerHealth) return;
+            playerHealth.TakeDamage(_controller.GetCharacterController());
+            var rg = other.gameObject.GetComponent<Rigidbody2D>();
+            var dir = other.transform.position.x - transform.position.x;
+            rg.AddForce(new Vector2((dir > 0 ? 1 : -1) * _pushForce.x, _pushForce.y), ForceMode2D.Impulse);
         }
     }
 }
