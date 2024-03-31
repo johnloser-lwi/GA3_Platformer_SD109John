@@ -48,10 +48,10 @@ namespace Health
             OnHealthChange.Invoke(Health);
         }
 
-        public void TakeDamage(BaseCharacterController source)
+        public void TakeDamage(BaseCharacterController source, uint damage = 1)
         {
             if (IsDead) return;
-            Health--;
+            Health -= damage;
             if (Health > 0)
             {
                 OnTakeDamage.Invoke(source);
@@ -73,7 +73,7 @@ namespace Health
         {
             if (_rigidbody.velocity.y > _fallDamageThreshold) return;
             
-            TakeDamage(_characterController);
+            TakeDamage(_characterController, Health);
         }
     }
 }
