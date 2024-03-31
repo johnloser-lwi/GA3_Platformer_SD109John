@@ -26,16 +26,15 @@ namespace Controller
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (other.gameObject.CompareTag("Player"))
-            {
-                DealDamageToPlayer(other);
-            }
+            DealDamageToPlayer(other);
             
             if (_destroySelf) Destroy(gameObject);
         }
 
         private void DealDamageToPlayer(Collision2D other)
         {
+            if (!other.gameObject.CompareTag("Player")) return;
+            
             other.gameObject.TryGetComponent(out CharacterHealth playerHealth);
             if (!playerHealth) return;
             playerHealth.TakeDamage(_controller.GetCharacterController(), _damage);
