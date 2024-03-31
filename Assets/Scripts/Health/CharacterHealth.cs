@@ -52,7 +52,7 @@ namespace Health
         {
             if (IsDead) return;
             Health--;
-            if (_health > 0)
+            if (Health > 0)
             {
                 OnTakeDamage.Invoke(source);
 #if DEBUG
