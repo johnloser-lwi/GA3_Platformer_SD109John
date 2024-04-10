@@ -6,10 +6,10 @@ namespace Audio
     [RequireComponent(typeof(AudioSource))]
     public class PlayerAudioController : MonoBehaviour
     {
-        [SerializeField] private AudioClip _jump;
+        [SerializeField] private RandomAudioClip _jump;
         [SerializeField] private AudioClip _land;
         [SerializeField] private AudioClip _footStep;
-        [SerializeField] private AudioClip _takeDamage;
+        [SerializeField] private RandomAudioClip _takeDamage;
 
         private AudioSource _audioSource;
 
@@ -20,7 +20,7 @@ namespace Audio
 
         public void PlayJump()
         {
-            AudioManager.Instance.PlaySFX(_jump, _audioSource);
+            AudioManager.Instance.PlayRandomSFX(_jump, _audioSource);
         }
 
         public void PlayLand()
@@ -35,7 +35,7 @@ namespace Audio
 
         public void PlayTakeDamage()
         {
-            AudioManager.Instance.PlaySFX(_takeDamage, _audioSource);
+            AudioManager.Instance.PlayRandomSFX(_takeDamage, _audioSource);
         }
     }
 }

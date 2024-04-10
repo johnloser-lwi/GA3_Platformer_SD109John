@@ -636,10 +636,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 077f252fae12477cb8ff67465db738bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _jump: {fileID: 8300000, guid: 43ee84b8c14455844a5da0e8efc03e9c, type: 3}
+  _jump:
+    clips:
+    - {fileID: 8300000, guid: 43ee84b8c14455844a5da0e8efc03e9c, type: 3}
   _land: {fileID: 8300000, guid: 1c6d51d6bc4ccb94e92100f77c1bcbb7, type: 3}
   _footStep: {fileID: 8300000, guid: 1c6d51d6bc4ccb94e92100f77c1bcbb7, type: 3}
-  _takeDamage: {fileID: 8300000, guid: ed9fa99a180f94d33a5b7c5443a1d471, type: 3}
+  _takeDamage:
+    clips:
+    - {fileID: 8300000, guid: ed9fa99a180f94d33a5b7c5443a1d471, type: 3}
 --- !u!1 &5120823961218868699
 GameObject:
   m_ObjectHideFlags: 0

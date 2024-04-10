@@ -188,3 +188,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pushForce: {x: 12, y: 2.4}
   _destroySelf: 1
+  _damage: 1

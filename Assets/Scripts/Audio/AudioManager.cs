@@ -50,7 +50,23 @@ namespace Audio
 
         public void StopMusic()
         {
-            if (_MusicAudioSource.isPlaying) _MusicAudioSource.Stop();
+            StopSource(_MusicAudioSource);
+        }
+
+        public void StopOther()
+        {
+            StopSource(_OtherAudioSource);
+        }
+
+        public void StopUI()
+        {
+            StopSource(_UIAudioSource);
+        }
+
+        private void StopSource(AudioSource source)
+        {
+            if (source is null) return;
+            if (source.isPlaying) source.Stop();
         }
 
         public void PlayUI(AudioClip audio)
@@ -63,6 +79,13 @@ namespace Audio
         {
             if (!audio) return;
             PlaySFX(audio, _OtherAudioSource);
+        }
+
+        public void PlayRandomSFX(RandomAudioClip clip, AudioSource source, bool applyCooldown = false)
+        {
+            var audio = clip.PickRandom();
+            if (audio == null) return;
+            PlaySFX(audio, source, applyCooldown);
         }
     }
 }

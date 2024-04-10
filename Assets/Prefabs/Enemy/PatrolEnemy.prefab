@@ -162,6 +162,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ea31f5b652c4dba912ac5e4350697ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnLand:
+    m_PersistentCalls:
+      m_Calls: []
   _moveSpeed: 2
   _acceleration: 2
   _friction: 2
@@ -170,9 +173,10 @@ MonoBehaviour:
   _groundLayer:
     serializedVersion: 2
     m_Bits: 0
+  _ignoreGroundCheckVelocityThreshold: 1
+  _groundCheckInterval: 3
   _enableGizmos: 1
   _patrolDistance: 15.7
-  _pushigForce: 15
 --- !u!114 &-3171636666281869114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,3 +191,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pushForce: {x: 12, y: 12}
   _destroySelf: 0
+  _damage: 1

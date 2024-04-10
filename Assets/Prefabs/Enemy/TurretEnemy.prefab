@@ -210,6 +210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pushForce: {x: 12, y: 12}
   _destroySelf: 0
+  _damage: 1
 --- !u!114 &4305385171625737640
 MonoBehaviour:
   m_ObjectHideFlags: 0

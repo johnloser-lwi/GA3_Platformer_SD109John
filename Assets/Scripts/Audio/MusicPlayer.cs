@@ -9,6 +9,7 @@ namespace Audio
 
         private void Start()
         {
+            if (_music is null) return; 
             AudioManager.Instance.PlayMusic(_music);
         }
 
