@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Gameplay;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Controller
@@ -21,6 +22,8 @@ namespace Controller
         // Private fields
         private uint _inAirJumpCount;
         private bool _isJumpPressed;
+
+        private bool _gameEnded = false;
     
         // Constants
         // Hashed string for animator parameters, this is to avoid using string directly to save performance
@@ -30,6 +33,8 @@ namespace Controller
         protected override void Start()
         {
             base.Start();
+            
+            GameManager.Instance.OnGameEnd.AddListener(GameEndHandler);
             
             // Initialize in air jump count, in case player can jump in air at spawn
             ClearInAirJump();
@@ -50,6 +55,12 @@ namespace Controller
     
         private void PlayerInput()
         {
+            if (_gameEnded)
+            {
+                _horizontalAxis = 0.0f;
+                return;
+            }
+            
             // Handle input and physics separately
             _horizontalAxis = Input.GetAxis("Horizontal");
             
@@ -105,6 +116,11 @@ namespace Controller
                 _animator.SetBool(IsGroundedParam, IsGrounded);
                 _isGroundedChanged = false;
             }
+        }
+
+        private void GameEndHandler(bool isVictory)
+        {
+            _gameEnded = true;
         }
 
         // Need some extra logic for ground check in player controller script

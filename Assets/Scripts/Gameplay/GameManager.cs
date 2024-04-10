@@ -9,6 +9,7 @@ namespace Gameplay
     public class GameManager : Singleton<GameManager>
     {
         public UnityEvent<uint> OnScoreChange;
+        public UnityEvent<bool> OnGameEnd;
         
         public uint Score { get; private set; } = 0;
 
@@ -31,7 +32,7 @@ namespace Gameplay
             var player = GameObject.FindWithTag("Player");
             if (!player) return;
             if (!player.TryGetComponent(out CharacterHealth playerHealth)) return;
-            playerHealth.OnDead.AddListener(ResetLevel);
+            playerHealth.OnDead.AddListener(() => { OnGameEnd.Invoke(false); });
         }
 
         private void SetupCollectableEvent()
@@ -54,10 +55,10 @@ namespace Gameplay
             else
             {
                 Debug.Log($"Victory!");
-                ResetLevel();
+                OnGameEnd.Invoke(true);
             }
         }
-
+        
         public void ResetLevel()
         {
             GameSceneManager.Instance.LoadScene("TestLevel");
@@ -72,7 +73,8 @@ namespace Gameplay
         {
             if (Input.GetButtonDown("Cancel"))
             {
-                GameSceneManager.Instance.LoadScene("MainMenu");
+                //GameSceneManager.Instance.LoadScene("MainMenu");
+                ResetLevel();
             }
         }
     }

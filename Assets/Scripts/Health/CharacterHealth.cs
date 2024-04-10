@@ -37,6 +37,8 @@ namespace Health
         // Private fields
         private Rigidbody2D _rigidbody;
         private BaseCharacterController _characterController;
+
+        private bool _gameEnded = false;
         
         private void Start()
         {
@@ -50,7 +52,7 @@ namespace Health
 
         public void TakeDamage(BaseCharacterController source, uint damage = 1)
         {
-            if (IsDead) return;
+            if (IsDead || _gameEnded) return;
             Health -= damage;
             if (Health > 0)
             {
@@ -71,9 +73,14 @@ namespace Health
 
         private void FixedUpdate()
         {
-            if (_rigidbody.velocity.y > _fallDamageThreshold) return;
+            if (_rigidbody.velocity.y > _fallDamageThreshold || _gameEnded) return;
             
             TakeDamage(_characterController, Health);
+        }
+
+        private void GameEndHandler(bool isVictory)
+        {
+            _gameEnded = true;
         }
     }
 }

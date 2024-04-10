@@ -7,27 +7,37 @@ namespace UI
 {
     public class InGameUI : MonoBehaviour
     {
-        private TextMeshProUGUI _textMeshPro;
+        [SerializeField] private TextMeshProUGUI _statusUI;
+        [SerializeField] private TextMeshProUGUI _resultUI;
         private uint _healthCache;
         private uint _scoreCache;
 
         private void Awake()
         {
-            _textMeshPro = GetComponent<TextMeshProUGUI>();
-
             var gameManager = GameObject.FindWithTag("GameController");
             if (!gameManager) return;
             var gm = gameManager.GetComponent<GameManager>();
             if (!gm) return;
             gm.OnScoreChange.AddListener(UpdateScoreText);
             
+            gm.OnGameEnd.AddListener(GameEndHandler);
+            
             var player = GameObject.FindWithTag("Player");
             if (!player) return;
             var health = player.GetComponent<CharacterHealth>();
             if (!health) return;
             health.OnHealthChange.AddListener(UpdateHealthText);
-            
+
+            _resultUI.text = "";
             UpdateText();
+        }
+
+        private void GameEndHandler(bool isVictory)
+        {
+            var resultText = isVictory ? "Victory!" : "The End!";
+
+            _statusUI.text = "";
+            _resultUI.text = resultText;
         }
 
         private void UpdateHealthText(uint health)
@@ -44,7 +54,7 @@ namespace UI
 
         private void UpdateText()
         {
-            _textMeshPro.text = $"HP : {_healthCache}\nPT : {_scoreCache}";
+            _statusUI.text = $"HP : {_healthCache}\nPT : {_scoreCache}";
         }
     }
 }
