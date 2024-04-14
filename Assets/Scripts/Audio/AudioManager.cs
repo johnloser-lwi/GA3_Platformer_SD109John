@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Utility;
 
 namespace Audio
@@ -8,7 +9,7 @@ namespace Audio
     {
         [SerializeField] private AudioSource _UIAudioSource;
         [SerializeField] private AudioSource _MusicAudioSource;
-        [SerializeField] private AudioSource _OtherAudioSource;
+        [SerializeField] private AudioSource _BGAudioSource;
         [SerializeField] private float _audioCooldown = 0.2f;
         
         private Dictionary<string, float> _cacheList;
@@ -53,9 +54,9 @@ namespace Audio
             StopSource(_MusicAudioSource);
         }
 
-        public void StopOther()
+        public void StopBG()
         {
-            StopSource(_OtherAudioSource);
+            StopSource(_BGAudioSource);
         }
 
         public void StopUI()
@@ -75,10 +76,10 @@ namespace Audio
             PlaySFX(audio, _UIAudioSource);
         }
         
-        public void PlaySFX(AudioClip audio)
+        public void PlayBG(AudioClip audio)
         {
             if (!audio) return;
-            PlaySFX(audio, _OtherAudioSource);
+            PlaySFX(audio, _BGAudioSource);
         }
 
         public void PlayRandomSFX(RandomAudioClip clip, AudioSource source, bool applyCooldown = false)

@@ -10,12 +10,12 @@ namespace Audio
         private void Start()
         {
             if (_bg is null) return;
-            AudioManager.Instance.PlaySFX(_bg);
+            AudioManager.Instance.PlayBG(_bg);
         }
 
         private void OnDestroy()
         {
-            AudioManager.Instance.StopOther();
+            AudioManager.Instance.StopBG();
         }
     }
 }

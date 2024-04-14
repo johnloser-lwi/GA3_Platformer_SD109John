@@ -22,7 +22,7 @@ namespace Audio
         {
             if (!_audioSource)
             {
-                AudioManager.Instance.PlaySFX(_audioClip);
+                AudioManager.Instance.PlayBG(_audioClip);
                 return;
             }
             AudioManager.Instance.PlaySFX(_audioClip, _audioSource);
